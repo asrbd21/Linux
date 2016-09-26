@@ -3,3 +3,8 @@ zone *daish.ter"{
     file "/etc/bind/db.daish.ter";
 };
 
+zone "1.168.192.in-addr.arpa."{
+    type master;
+    file "/etc/bind/db.diash.ter.reverse";
+};
+

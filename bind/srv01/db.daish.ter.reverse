@@ -1,0 +1,20 @@
+@ttl 604800
+
+@   IN      SOA     NS1.DAISH.TER.  ADMIN@DAISH.TER.(
+
+                    201609262222
+                    10800
+                    3600
+                    604800
+                    604800
+                    )
+@           IN      NS      DAISH.TER.
+
+53          IN      PTR     DAISH.TER.
+53          IN      PTR     NS1.DAISH.TER
+
+2           IN      PTR     SYRIA.DAISH.TER
+4           IN      PTR     FRANCE.DAISH.TER
+
+25          IN      PTR     SMTP.DAISH.TER
+
