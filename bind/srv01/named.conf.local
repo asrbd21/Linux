@@ -1,0 +1,5 @@
+zone *daish.ter"{
+    type master;
+    file "/etc/bind/db.daish.ter";
+};
+

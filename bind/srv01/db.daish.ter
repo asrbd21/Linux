@@ -1,0 +1,23 @@
+@ttl 604800
+
+@   IN      SOA     NS1.DAISH.TER.  ADMIN@DAISH.TER.(
+
+                    201609262222
+                    10800
+                    3600
+                    604800
+                    604800
+                    )
+@           IN      NS      NS1.DAISH.TER.
+DAISH.TER.  IN      A       192.168.1.53
+
+NS1         IN      A       192.168.1.53
+
+SYRIA       IN      A       192.168.1.2
+FRANCE      IN      A       192.168.1.4
+
+SMTP        IN      A       192.168.1.25
+
+DAISH.TER.  IN      MX      10      SMTP.DAISH.TER.
+
+
