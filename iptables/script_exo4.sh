@@ -21,8 +21,8 @@ iptables -A OUTPUT -o eth0 --protocol tcp --destination-port 53 -j ACCEPT
 iptables -A INPUT -i lo --protocol udp --source-port 53 -j ACCEPT
 iptables -A INPUT -i lo --protocol tcp --source-port 53 -j ACCEPT
 iptables -A INPUT -s $(route | awk '{ print $1 }' | grep -vE 'Table|Destination|default') --protocol udp --source-port 53 -j ACCEPT
-iptables -A INPUT -s $(route | awk '{ print $1 }' | grep -vE 'Table|Destination|default') --protocol udp --source-port 53 -j ACCEPT
+iptables -A INPUT -s $(route | awk '{ print $1 }' | grep -vE 'Table|Destination|default') --protocol tcp --source-port 53 -j ACCEPT
 ## SSH 
--A OUTPUT -p tcp -m tcp --sport 22 -j ACCEPT
--A OUTPUT -p tcp -m tcp --sport 22 -j ACCEPT
+iptables -A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
+iptables -A OUTPUT -p tcp -m tcp --sport 22 -j ACCEPT
 
