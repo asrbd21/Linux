@@ -1,7 +1,4 @@
 #!/bin/bash
-## Connections déjà établie
-iptables -A INPUT -m conntrack --ctstate ESTABLISHED -j ACCEPT
-## Flush des tables
 iptables -F
 iptables -X
 iptables -t nat -F
