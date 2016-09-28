@@ -1,5 +1,0 @@
-echo 'FW_SERVICES_EXT_TCP="22"' >> /etc/sysconfig/SuSEfirewall2
-/sbin/SuSEfirewall2
-systemctl enable shd
-systemctl start sshd
-
