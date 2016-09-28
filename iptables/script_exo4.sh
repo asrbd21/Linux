@@ -1,4 +1,5 @@
 #!/bin/bash
+## Vider toutes les tables
 iptables -F
 iptables -X
 iptables -t nat -F
@@ -11,6 +12,8 @@ iptables -P OUTPUT ACCEPT
 iptables -t nat -P PREROUTING ACCEPT
 iptables -t nat -P POSTROUTING ACCEPT
 iptables -t nat -P OUTPUT ACCEPT
+## Autoriser les states déjà établies
+iptables -A INPUT -m conntrack --ctstate ESTABLISHED -j ACCEPT
 ## DNS en sortie
 iptables -A OUTPUT -o eth0 --protocol udp --destination-port 53 -j ACCEPT
 iptables -A OUTPUT -o eth0 --protocol tcp --destination-port 53 -j ACCEPT
