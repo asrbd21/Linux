@@ -1,3 +1,3 @@
 #!/bin/bash
-zypper install bind squid
+zypper install bind
 
