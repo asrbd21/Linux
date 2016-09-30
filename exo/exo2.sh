@@ -12,7 +12,7 @@ touch -d '1979-11-27' test.sh
 mkdir /usr/home/jason/dev
 ln -s /usr/home/jason/test.sh /usr/home/jason/dev/appli
 #Question 5
-echo '#!/bin/bash\nps -ax' > process.sh
+echo '#!/bin/bash\nps -eo comm,cmd' > process.sh
 chmod +x process.sh
 ##Question 6
 chmod 644 $(find /usr/home/jason/ -type f)
