@@ -1,0 +1,13 @@
+$TTL 1W
+@               IN SOA  @   master.daish.ter. (
+                                42              ; serial (d. adams)
+                                2D              ; refresh
+                                4H              ; retry
+                                6W              ; expiry
+                                1W )            ; minimum
+
+@               IN NS           ns1.daish.ter.
+ns1             IN A            192.168.1.53
+SYRIA           IN A            192.168.1.2
+FRANCE          IN A            192.168.1.4
+
