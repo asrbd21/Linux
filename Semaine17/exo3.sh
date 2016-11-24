@@ -1,62 +1,80 @@
-# A - Echauffement (préparation du système)
-apt-get install lvm2
-cat /proc/partitions
-# vdb et vdc (because i'm using kvm on proxmox) 
-dd if=/dev/zero of=/dev/vdb
-dd if=/dev/zero of=/dev/vdc
-#B - Mise en place de LVM
-#B1 - Préparation physique
-pvcreate /dev/vdb
-pvcreate /dev/vdc
-pvscan
-#B2 - Formation de groupe
-vgcreate vgnextformation /dev/vdb /dev/vdc
-vgscan
-#B3 - Question de logique
-lvcreate vgnextformation -l 30%FREE -n telechargements
-lvcreate vgnextformation -l 100%FREE -n archives
-lvscan
-#C - Chasse et cueillette
-#C1 - Observation
-cd /dev
-for i in $(find | grep vg); do ls -l $i; done
-# dm-0 -> telechargements
-# dm-1 -> archives
-# type: lien symbolique
-# Ce sont des lien vers des périphériques physique ( dm-0 et dm-1 ) 
-#C1 - Utilisation
-mkfs.ext4 /dev/dm-0
-mkfs.ext4 /dev/dm-1
-mkdir /mnt/telechargements
-mount /dev/dm-0 /mnt/telechargements
-mkdir /mnt/archives
-mount /dev/dm-1 /mnt/archives
-mount
-mkdir /mnt/telechargements/strangerthings
-mkdir /mnt/telechargements/westworld
-mkdir /mnt/archives/friends
-mkdir /mnt/archives/buffy
-#reboot
-# Les fichiers ne sont pas là car les volumes logiques dm-0 et dm-1 n'ont pas été monté 
-# le fichier fstab permet de définirs des montages de volumes physique, logique (des périphériques de stockage) au démarrage 
-# La syntaxe est la composé de:
-## - l'identifiant du périphérique = UUID=f91eb3b9-081b-4932-8a2c-ed1be540abb1 
-## - le point de montage souhaité = /
-## - le format du volume monté = ext4 
-## - des options de montage = errors=remount-ro 
-## - les options pour l'archivage = 0
-## - le poids lors d'une vérification du système de fichiers = 1
-echo "/dev/dm-0   /mnt/telechargements   ext4      defaults      0   0" >> /etc/fstab
-echo "/dev/dm-1   /mnt/archives   ext4      defaults      0   0" >> /etc/fstab
-#D - Bonus
-##0 - Shabang sh 
-##1 - le script liste les périphérique sata dans dev
-##2 - il scan les volumes physiques  
-##3 - il check les montage existant 
-##4 - il regarde le man de vgextend
-##5 - il etend grace à la commande "vgextend" le groupe de volume "vgnextformation" en y ajoutant le volume physique sdd 
-##6 - il scan les groupes de volume existant 
-##7 - il etend grace à la commande "lvextend" le volume logique archives en utilisant tous l'expace libre restant du groupe de volume vgnextformation
-##8 - il scan les volumes physiques
-##9 - il redimentionne grace a la commande "resize2fs" le système de fichier présent sur le volume logique archives 
+#!/bin/sh
+##
+# subject: http://formation.gnuside.com/system/linux/administration/tp3
+##
+## 1 - Preparation
+
+#1.a
+whoami
+
+#1.b
+ip addr && ifconfig
+
+#1.c
+echo "ip: $(ifconfig | egrep "([0-9]{1,3}\.){3}[0-9]{1,3}" | grep -i bcast | cut -d " " -f 12 | cut -d ":" -f 2 | head -n 1)" >> voisin.txt
+echo "user: $USER" >> voisin.txt
+echo "password: Bonjour, enchanté :)" >> voisin.txt
+
+
+## 2 - Echauffement
+apt-get update && apt-cache search TCP/IP swiss army knife
+apt-get install netcat
+apt-cache policy openssh-client
+
+
+### 3 - Avec sa ... et son couteau
+
+## 3.1 - Mode facile
+
+# 3.1.a
+# La commande nc permet d'ouvrir un port "l'activer"
+#l permet d'écouter 
+#p pour préciser le port 
+
+## 3.2 - Level up ^_^
+wget http://formation.gnuside.com/_export/code/system/linux/administration/tp3?codeblock=0 -O timeservice.sh
+chmod u+x timeservice.sh
+./timeservice.sh
+ssh root@10.3.107.61 nc 10.3.107.61 1982
+# Thu Nov 24 22:42:55 CET 2016
+# Le script permet d'executer infiniment (tant que vrai) l'affichage de la date grâce à la fonction idoinesur le port 1982 
+
+
+## 4 - More than expected
+
+# 4.1 - nmap 
+apt-get install nmap
+nmap 10.3.107.61
+#Starting Nmap 6.47 ( http://nmap.org ) at 2016-11-24 23:13 CET
+#Nmap scan report for 10.42.42.242
+#Host is up (0.000019s latency).
+#Not shown: 997 closed ports
+#PORT     STATE SERVICE
+#22/tcp   open  ssh
+#MAC Address: 00:00:00:00:00:00 (Unknown)
+
+# 4.2 - tcpdump
+apt-get install tcpdump
+tcpdump -i eth0
+# tcpdump sert à suivre tous le traffic réseau
+# On observe les échange comme la requête dns vers google.fr, les connexion ssh vers les serveurs qui sont en cours, le flux video de youtube ou dailymotion 
+tcpdump -evvnt -i eth0
+# -e : affiche l'address mac
+# -n ne résou pas les nom de domain (affiche l'ip)
+# -t n' affiche pas les timestamp pour chaque dump 
+# -i indique l'interface réseau souhaité 
+
+
+##5 - The Secure Shell 
+
+# 5.1 
+apt-get install openssh-server openssh-client
+ssh root@10.3.107.61
+# J'accède au shell de l'ordinateur de mon voisin
+# Il permet donc de se connecter à distance sur un ordinateur possèdant un serveur ssh 
+
+# 5.2
+tail -n 20 /var/log/auth.log
+# la liste des session qui se sont connecté avec le type d'authentification (pam) l'utilisateur et la date 
+sed -i -e "s#PermitRootLogin yes#PermitRootLogin no#g" /etc/ssh/sshd_config
 

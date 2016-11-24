@@ -1,4 +1,7 @@
 #!/bin/bash
+##
+# subject : http://formation.gnuside.com/system/linux/administration/tp1
+##
 #A - echauffement
 # Un logiciel propriétaire de fournis pas ces sources, un logiciel libre les fournis 
 
