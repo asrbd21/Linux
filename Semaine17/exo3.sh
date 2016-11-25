@@ -66,6 +66,7 @@ tcpdump -evvnt -i eth0
 # -n ne résou pas les nom de domain (affiche l'ip)
 # -t n' affiche pas les timestamp pour chaque dump 
 # -i indique l'interface réseau souhaité 
+# -v...v le nombre de v indique le niveau de "verbosité" du programme (le nombre d'information afficher, utile en cas de debug
 
 
 ##5 - The Secure Shell 
