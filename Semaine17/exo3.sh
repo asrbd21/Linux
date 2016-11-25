@@ -28,13 +28,13 @@ apt-cache policy openssh-client
 
 # 3.1.a
 # La commande nc permet d'ouvrir un port "l'activer"
-#l permet d'écouter 
-#p pour préciser le port 
+# -l permet d'écouter 
+# -p pour préciser le port 
 
 ## 3.2 - Level up ^_^
 wget http://formation.gnuside.com/_export/code/system/linux/administration/tp3?codeblock=0 -O timeservice.sh
 chmod u+x timeservice.sh
-./timeservice.sh
+./timeservice.sh &
 ssh root@10.3.107.61 nc 10.3.107.61 1982
 # Thu Nov 24 22:42:55 CET 2016
 # Le script permet d'executer infiniment (tant que vrai) l'affichage de la date grâce à la fonction idoinesur le port 1982 
@@ -60,7 +60,7 @@ tcpdump -i eth0
 curl -I 127.0.0.1:80
 lynx -cookies=1 -accept_all_cookies=1 http://google.fr
 # tcpdump sert à suivre tous le traffic réseau
-# On observe les échange comme la requête dns vers google.fr, les ports utilisé, le type de connexion 
+# On observe les échanges entre notre machines et les serbeurs comme la requête dns vers google.fr, les ports utilisé, le type de connexion, de flux
 tcpdump -evvnt -i eth0
 # -e : affiche l'address mac
 # -n ne résou pas les nom de domain (affiche l'ip)
