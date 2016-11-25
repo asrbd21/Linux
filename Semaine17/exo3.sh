@@ -55,9 +55,12 @@ nmap 10.3.107.61
 
 # 4.2 - tcpdump
 apt-get install tcpdump
+apt-get install apache2 lynx curl 
 tcpdump -i eth0
+curl -I 127.0.0.1:80
+lynx -cookies=1 -accept_all_cookies=1 http://google.fr
 # tcpdump sert à suivre tous le traffic réseau
-# On observe les échange comme la requête dns vers google.fr, les connexion ssh vers les serveurs qui sont en cours, le flux video de youtube ou dailymotion 
+# On observe les échange comme la requête dns vers google.fr, les ports utilisé, le type de connexion 
 tcpdump -evvnt -i eth0
 # -e : affiche l'address mac
 # -n ne résou pas les nom de domain (affiche l'ip)
@@ -77,4 +80,5 @@ ssh root@10.3.107.61
 tail -n 20 /var/log/auth.log
 # la liste des session qui se sont connecté avec le type d'authentification (pam) l'utilisateur et la date 
 sed -i -e "s#PermitRootLogin yes#PermitRootLogin no#g" /etc/ssh/sshd_config
+service ssh restart 
 
