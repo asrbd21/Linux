@@ -11,10 +11,13 @@ whoami
 ip addr && ifconfig
 
 #1.c
-echo "ip: $(ifconfig | egrep "([0-9]{1,3}\.){3}[0-9]{1,3}" | grep -i bcast | cut -d " " -f 12 | cut -d ":" -f 2 | head -n 1)" >> voisin.txt
-echo "user: $USER" >> voisin.txt
-echo "password: Bonjour, enchanté :)" >> voisin.txt
-
+echo "ip:" $(ifconfig | egrep "([0-9]{1,3}\.){3}[0-9]{1,3}" | grep -i bcast | cut -d " " -f 12 | cut -d ":" -f 2 | head -n 1) >> /home/rlaunay/voisin.txt
+echo "user:" $USER >> /home/rlaunay/voisin.txt
+echo "password: Bonjour, enchanté :)" >> /home/rlaunay/voisin.txt
+mkdir /home/rlaunay/websrv/
+mv /home/rlaunay/voisin.txt /home/rlaunay/websrv/voisin.txt
+cd /home/rlaunay/websrv/
+python -m SimpleHTTPServer 1234 &
 
 ## 2 - Echauffement
 apt-get update && apt-cache search TCP/IP swiss army knife
